@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'  // ← Add useRef, useEffect
+import { useState, useRef, useEffect } from 'react'
 import { toast } from 'sonner'
 import { decryptVigenere, validateKey } from '../utils/vigenere'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -15,7 +15,7 @@ function DecryptPanel() {
   const [animationSpeed, setAnimationSpeed] = useState(50)
   const resultRef = useRef(null)
 
-   useEffect(() => {
+  useEffect(() => {
     if (plaintext && resultRef.current) {
       resultRef.current.scrollIntoView({ 
         behavior: 'smooth', 
@@ -141,7 +141,7 @@ function DecryptPanel() {
               <input
                 type="range"
                 min="10"
-                max="150"
+                max="200"
                 value={animationSpeed}
                 onChange={(e) => setAnimationSpeed(Number(e.target.value))}
                 className="w-24 accent-blue-400"
@@ -174,7 +174,7 @@ function DecryptPanel() {
         </div>
 
         {plaintext && (
-          <div className="mt-6 pt-6 border-t border-zinc-800"  ref={resultRef}>
+          <div className="mt-6 pt-6 border-t border-zinc-800" ref={resultRef}>
             <div className="flex items-center justify-between mb-2">
               <label className="block text-sm font-medium text-neutral-300">
                 Decrypted Plaintext
@@ -188,21 +188,11 @@ function DecryptPanel() {
               </button>
             </div>
             <div className="bg-zinc-950 border-2 border-blue-400 rounded-lg p-4 text-blue-300 text-lg break-all shadow-lg shadow-blue-400/20 min-h-[60px]">
-              {showAnimation && (
-  <div className="flex items-center gap-2 ml-auto">
-    <label className="text-xs text-neutral-400">Speed:</label>
-    <input
-      type="range"
-      min="10"
-      max="1000"  // ← Changed from 150 to 1000
-      value={animationSpeed}
-      onChange={(e) => setAnimationSpeed(Number(e.target.value))}
-      className="w-24 accent-blue-400"
-    />
-    <span className="text-xs text-neutral-400 w-16">{animationSpeed}ms</span>
-  </div>
-)}
-
+              {showAnimation ? (
+                <AnimatedText text={plaintext} speed={animationSpeed} />
+              ) : (
+                plaintext
+              )}
             </div>
           </div>
         )}
